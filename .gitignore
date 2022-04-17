@@ -147,3 +147,5 @@ cython_debug/
 .DS_Store
 *.csv
 data_files/
+*.h5
+
