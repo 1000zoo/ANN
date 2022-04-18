@@ -148,4 +148,4 @@ cython_debug/
 *.csv
 data_files/
 *.h5
-
+result/

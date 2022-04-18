@@ -32,20 +32,24 @@ from tensorflow.keras import models, layers, optimizers
 
 input_shape = [150, 150, 3]
 
+"""
+CONV2D(32)
+CONV2D(64)
+MaxPooling
+Flatten
+Dense(128)
+Dense(softmax)
+"""
+
 def build_model():
     model = models.Sequential()
     model.add(layers.Conv2D(32, (3, 3), activation='relu',
                     input_shape = input_shape))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-    model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Conv2D(64, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Flatten())
-    model.add(layers.Dense(512, activation='relu'))
-    model.add(layers.Dense(1, activation='sigmoid'))
+    model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dense(1, activation='softmax'))
     model.compile(optimizer=optimizers.RMSprop(learning_rate=1e-4),
                     loss='binary_crossentropy', metrics=['accuracy'])
     return model
@@ -74,3 +78,12 @@ import matplotlib.pyplot as plt
 
 plt.title("Loss")
 plt.plot(history.history["loss"])
+plt.plot(history.history["val_loss"])
+plt.legend(["loss", "val_loss"])
+plt.savefig("ex1_loss.png")
+
+plt.title("Accuracy")
+plt.plot(history.history["accuracy"])
+plt.plot(history.history["val_accuracy"])
+plt.legend(["acc", "val_acc"])
+plt.savefig("ex1_acc.png")
