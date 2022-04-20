@@ -78,6 +78,7 @@ plt.plot(history.history["loss"])
 plt.plot(history.history["val_loss"])
 plt.legend(["loss", "val_loss"])
 plt.savefig("ex2loss.png")
+plt.clf()
 
 plt.title("Accuracy")
 plt.plot(history.history["accuracy"])

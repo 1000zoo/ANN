@@ -29,10 +29,8 @@ Dense(softmax)
 
 def build_model():
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3), activation='relu',
+    model.add(layers.Conv2D(128, (3, 3), activation='relu',
                     input_shape = input_shape))
-    model.add(layers.MaxPooling2D((2, 2)))
-    model.add(layers.Conv2D(64, (3, 3), activation='relu'))
     model.add(layers.MaxPooling2D((2, 2)))
     model.add(layers.Flatten())
     model.add(layers.Dense(128, activation='relu'))
@@ -68,6 +66,7 @@ plt.plot(history.history["loss"])
 plt.plot(history.history["val_loss"])
 plt.legend(["loss", "val_loss"])
 plt.savefig("result/ex1_loss.png")
+plt.clf()
 
 plt.title("Accuracy")
 plt.plot(history.history["accuracy"])
