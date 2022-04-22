@@ -4,9 +4,9 @@ from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 
 # set image generators
-train_dir='./datasets/cats_and_dogs_small/train/'
-test_dir='./datasets/cats_and_dogs_small/test/'
-validation_dir='./datasets/cats_and_dogs_small/validation/'
+train_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/train'
+test_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/test'
+validation_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/validation'
 
 train_datagen = ImageDataGenerator(rescale=1./255)
 validation_datagen = ImageDataGenerator(rescale=1./255)
@@ -52,7 +52,7 @@ def build_model():
 # main loop without cross-validation
 import time
 starttime=time.time()
-num_epochs = 30
+num_epochs = 60
 model = build_model()
 history = model.fit_generator(train_generator,
                     epochs=num_epochs, steps_per_epoch=100,
@@ -70,8 +70,8 @@ print("elapsed time (in sec): ", time.time()-starttime)
 
 # visualization
 def plot_acc(h, title="accuracy"):
-    plt.plot(h.history['acc'])
-    plt.plot(h.history ['val_acc'])
+    plt.plot(h.history['accuracy'])
+    plt.plot(h.history ['val_accuracy'])
     plt.title(title)
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
@@ -85,9 +85,18 @@ def plot_loss(h, title="loss"):
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc=0)
 
+import os
+file_name = os.path.basename(__file__)
+ch = ".py"
+
+for c in ch:
+    file_name = file_name.replace(c, "")
+wlist = file_name.split("_")
+qnum = wlist[-1]
 plot_loss(history)
-plt.savefig('chapter5-2_basic.loss.png')
+
+plt.savefig(qnum[-1] + 'loss.png')
 plt.clf()
 plot_acc(history)
-plt.savefig('chapter5-2_basic.accuracy.png')
+plt.savefig(qnum[-1] + 'accuracy.png')
 
