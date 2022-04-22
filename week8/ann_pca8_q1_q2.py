@@ -56,8 +56,8 @@ print("elapsed time (in sec): ", time.time()-starttime)
 
 # visualization
 def plot_acc(h, title="accuracy"):
-    plt.plot(h.history['acc'])
-    plt.plot(h.history ['val_acc'])
+    plt.plot(h.history['accuracy'])
+    plt.plot(h.history ['val_accuracy'])
     plt.title(title)
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')

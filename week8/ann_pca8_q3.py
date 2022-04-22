@@ -54,8 +54,8 @@ print("elapsed time (in sec): ", time.time()-starttime)
 
 # visualization
 def plot_acc(h, title="accuracy"):
-    plt.plot(h.history['acc'])
-    plt.plot(h.history ['val_acc'])
+    plt.plot(h.history['accuracy'])
+    plt.plot(h.history ['val_accuracy'])
     plt.title(title)
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
@@ -70,8 +70,8 @@ def plot_loss(h, title="loss"):
     plt.legend(['Training', 'Validation'], loc=0)
 
 plot_loss(history)
-plt.savefig('result/chapter5-1_cifar10.loss.png')
+plt.savefig('chapter5-1_cifar10.loss.png')
 plt.clf()
 plot_acc(history)
-plt.savefig('result/chapter5-1_cifar10.accuracy.png')
+plt.savefig('chapter5-1_cifar10.accuracy.png')
 
