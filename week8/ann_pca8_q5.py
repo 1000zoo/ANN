@@ -27,10 +27,10 @@ def build_model():
     model.add(layers.Conv2D(64, (3,3), activation='relu'))
     # max-pooling layer
     model.add(layers.MaxPooling2D(pool_size=(2,2)))
-    model.add(layers.Dropout(0.25))                 # add dropout
+    model.add(layers.Dropout(0.5))
     # Fully connected MLP
     model.add(layers.Flatten())
-    model.add(layers.Dense(128, activation='relu'))
+    model.add(layers.Dense(512, activation='relu'))
     model.add(layers.Dropout(0.5))                  # add dropout
     model.add(layers.Dense(num_classes, activation='softmax'))
     # compile   # add learning rate
@@ -40,7 +40,7 @@ def build_model():
 # main loop without cross-validation
 import time
 starttime=time.time()
-num_epochs = 50
+num_epochs = 100
 model = build_model()
 # set batch_size 100 to 32
 history = model.fit(X_train, Y_train_, validation_split=0.2,

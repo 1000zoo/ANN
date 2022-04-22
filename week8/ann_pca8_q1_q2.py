@@ -37,7 +37,11 @@ def build_model():
     model.add(layers.Dropout(0.5))                  # add dropout
     model.add(layers.Dense(num_classes, activation='softmax'))
     # compile
-    model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
+    model.compile(
+        optimizer='rmsprop',
+        loss='categorical_crossentropy',
+        metrics=['accuracy']
+        )
     return model
 
 # main loop without cross-validation
@@ -46,8 +50,7 @@ starttime=time.time()
 num_epochs = 50
 model = build_model()
 history = model.fit(X_train, Y_train_, validation_split=0.2,
-                    epochs=num_epochs, batch_size=100, verbose=1,
-                    callbacks=[EarlyStopping(monitor='val_loss', patience=1)])
+                    epochs=num_epochs, batch_size=100, verbose=1)
 train_loss, train_acc = model.evaluate(X_train, Y_train_)
 test_loss, test_acc = model.evaluate(X_test, Y_test_)
 print('train_acc:', train_acc)
