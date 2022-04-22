@@ -5,6 +5,9 @@ from tensorflow.keras.callbacks import EarlyStopping
 import numpy as np
 import matplotlib.pyplot as plt
 
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 # data loading
 (X_train, Y_train), (X_test, Y_test) =  cifar10.load_data()
 
