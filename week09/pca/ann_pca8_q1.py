@@ -4,6 +4,7 @@ from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 
 # set image generators
+# 윈도우 경로
 train_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/train'
 test_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/test'
 validation_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/validation'
