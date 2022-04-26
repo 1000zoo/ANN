@@ -1,13 +1,17 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras import models, layers, optimizers
-from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 
 # set image generators
-# 윈도우 경로
-train_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/train'
-test_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/test'
-validation_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/validation'
+# # 윈도우 경로
+# train_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/train'
+# test_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/test'
+# validation_dir='C:/Users/cjswl/python__/ann-data/dogs-vs-cats/for_learning/validation'
+
+# Mac 경로
+train_dir = "/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/train"
+test_dir = "/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/test"
+validation_dir = "/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/validation"
 
 train_datagen = ImageDataGenerator(rescale=1./255)
 validation_datagen = ImageDataGenerator(rescale=1./255)
@@ -79,8 +83,8 @@ def plot_acc(h, title="accuracy"):
     plt.legend(['Training', 'Validation'], loc=0)
 
 def plot_loss(h, title="loss"):
-    plt.plot(h.history ['loss'])
-    plt.plot(h.history ['val_loss'])
+    plt.plot(h.history['loss'])
+    plt.plot(h.history['val_loss'])
     plt.title(title)
     plt.ylabel('Loss')
     plt.xlabel('Epoch')
@@ -96,8 +100,8 @@ wlist = file_name.split("_")
 qnum = wlist[-1]
 plot_loss(history)
 
-plt.savefig(qnum[-1] + 'loss.png')
+plt.savefig('result/' + qnum + 'loss.png')
 plt.clf()
 plot_acc(history)
-plt.savefig(qnum[-1] + 'accuracy.png')
+plt.savefig('result/' + qnum + 'accuracy.png')
 
