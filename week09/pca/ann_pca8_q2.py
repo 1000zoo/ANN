@@ -69,9 +69,6 @@ history = model.fit_generator(train_generator,
                     epochs=num_epochs, steps_per_epoch=100,
                     validation_data=validation_generator, validation_steps=50)
 
-# saving the model
-model.save('cats_and_dogs_small_1.h5')
-
 # evaluation
 train_loss, train_acc = model.evaluate_generator(train_generator)
 test_loss, test_acc = model.evaluate_generator(test_generator)
@@ -105,6 +102,9 @@ for c in ch:
 wlist = file_name.split("_")
 qnum = wlist[-1]
 plot_loss(history)
+
+# saving the model
+model.save('cats_and_dogs_small_' + qnum + '.h5')
 
 plt.savefig('result/' + qnum + 'loss.png')
 plt.clf()
