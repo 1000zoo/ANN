@@ -13,7 +13,13 @@ train_dir = "/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/train"
 test_dir = "/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/test"
 validation_dir = "/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/validation"
 
-train_datagen = ImageDataGenerator(rescale=1./255)
+# data augmentation 추가
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=20, shear_range=0.1,
+    width_shift_range=0.1, height_shift_range=0.1,
+    zoom_range=0.1, horizontal_flip=True, fill_mode='nearest'
+    )
 validation_datagen = ImageDataGenerator(rescale=1./255)
 test_datagen = ImageDataGenerator(rescale=1./255)
 
