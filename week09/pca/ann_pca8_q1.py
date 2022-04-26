@@ -104,4 +104,3 @@ plt.savefig('result/' + qnum + 'loss.png')
 plt.clf()
 plot_acc(history)
 plt.savefig('result/' + qnum + 'accuracy.png')
-
