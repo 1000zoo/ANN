@@ -1,6 +1,5 @@
 import os
 
-from numpy import character
 file_name = os.path.basename(__file__)
 ch = ".py"
 
