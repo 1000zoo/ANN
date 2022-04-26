@@ -1,6 +1,5 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras import models, layers, optimizers
-from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 
 # set image generators
