@@ -5,12 +5,19 @@ from tensorflow.keras.applications import VGG16
 import matplotlib.pyplot as plt
 import time
 
-## common
+"""
+train - 각각 1199장
+validation - 각각 300 장
+test - normal : 234 장 / pneumonia : 390 장
+"""
 
+## common
 TRAIN_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/train"
 VAL_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/val"
 TEST_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/test"
 
+FIG_DIR = "figures/"
+TXT_DIR = "txtfiles/"
 
 def run(Q):
     ## Q1
@@ -61,7 +68,7 @@ def run(Q):
     test_loss, test_acc = model.evaluate_generator(test)
     plot_result(history_before, Q, "accuracy")
     plot_result(history_before, Q, "loss")
-    text_name = "Q" + Q + "before.txt"
+    text_name = TXT_DIR + "Q" + str(Q) + "before.txt"
     with open(text_name, 'w') as f:
         f.write("train_loss : " + str(train_loss) + "\n")
         f.write("train_acc : " + str(train_acc) + "\n")
@@ -78,19 +85,19 @@ def run(Q):
         optimizer = optimizers.RMSprop(learning_rate=1e-5),
         loss = "binary_crossentropy", metrics = ["accuracy"]
     )
-    history_before = model.fit_generator(
+    history_after = model.fit_generator(
         train, epochs = epochs2,
         validation_data = val
     )
 
     model.save("new_models/chest_x_ray_Q" + str(Q) + "_after.h5")
 
-    train_loss = history_before.history["loss"][-1]
-    train_acc = history_before.history["accuracy"][-1]
+    train_loss = history_after.history["loss"][-1]
+    train_acc = history_after.history["accuracy"][-1]
     test_loss, test_acc = model.evaluate_generator(test)
-    plot_result(history_before, Q, "accuracy")
-    plot_result(history_before, Q, "loss")
-    text_name = "Q" + Q + "after.txt"
+    plot_result(history_after, Q, "accuracy")
+    plot_result(history_after, Q, "loss")
+    text_name = TXT_DIR + "Q" + str(Q) + "after.txt"
     with open(text_name, 'w') as f:
         f.write("train_loss : " + str(train_loss) + "\n")
         f.write("train_acc : " + str(train_acc) + "\n")
@@ -110,12 +117,14 @@ def get_model(Q, input_shape):
     model.add(conv_base)
     if Q == 1:
         model.add(layers.GlobalAveragePooling2D())
+        model.add(layers.Flatten())
         model.add(layers.Dense(512, activation='relu'))
         model.add(layers.BatchNormalization())
         model.add(layers.Activation('relu'))
         model.add(layers.Dense(128, activation='relu'))
     else:
         model.add(layers.GlobalAveragePooling2D())
+        model.add(layers.Flatten())
         model.add(layers.Dropout(0.25))
         model.add(layers.Dense(512, activation='relu'))
         model.add(layers.BatchNormalization())
@@ -159,7 +168,7 @@ def plot_result(h, Q, title):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc=0)
-    plt.savefig('Q' + str(Q) + title + '.png')
+    plt.savefig(FIG_DIR + 'Q' + str(Q) + title + '.png')
     plt.clf()
 
 import datetime
@@ -167,5 +176,6 @@ import datetime
 if __name__ == "__main__":
     print(datetime.datetime.now())
     for q in range(1,6):
+        print(q)
         run(q)
     print(datetime.datetime.now())
