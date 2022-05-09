@@ -140,12 +140,19 @@ def get_model(Q, input_shape):
     return model
 
 def data_generator(dir, input_shape, batch_size, data):
-    data_gen = data.flow_from_directory(
+    if input_shape[0] == None:
+        data_gen = data.flow_from_directory(
         dir,
-        target_size = input_shape,
         batch_size = batch_size,
         class_mode = 'binary'
-    )
+        )
+    else:
+        data_gen = data.flow_from_directory(
+            dir,
+            target_size = input_shape,
+            batch_size = batch_size,
+            class_mode = 'binary'
+        )
     return data_gen
 
 def generator(input_shape, batch_size):
