@@ -1,20 +1,18 @@
 ## import
 from tensorflow.keras import models, layers, optimizers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import load_model
 from tensorflow.keras.applications import VGG16
 import matplotlib.pyplot as plt
 import time
-
-"""
-train - 각각 1199장
-validation - 각각 300 장
-test - normal : 234 장 / pneumonia : 390 장
-"""
 
 ## common
 TRAIN_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/train"
 VAL_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/val"
 TEST_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/test"
+TRAIN_DIR_2STEP = "C:/Users/cjswl/python__/ann-data/chest_xray/train"
+VAL_DIR_2STEP = "C:/Users/cjswl/python__/ann-data/chest_xray/val"
+TEST_DIR_2STEP = "C:/Users/cjswl/python__/ann-data/chest_xray/test"
 
 FIG_DIR = "figures/"
 TXT_DIR = "txtfiles/"
@@ -61,13 +59,14 @@ def run(Q):
         train, epochs = epochs1,
         validation_data = val
     )
-    model.save("new_models/chest_x_ray_Q" + str(Q) + ".h5")
+    model_name = "new_models/chest_x_ray_Q" + str(Q) + ".h5"
+    model.save(model_name)
 
     train_loss = history_before.history["loss"][-1]
     train_acc = history_before.history["accuracy"][-1]
     test_loss, test_acc = model.evaluate_generator(test)
-    plot_result(history_before, Q, "accuracy")
-    plot_result(history_before, Q, "loss")
+    plot_result(history_before, Q, "accuracy", "before")
+    plot_result(history_before, Q, "loss", "before")
     text_name = TXT_DIR + "Q" + str(Q) + "before.txt"
     with open(text_name, 'w') as f:
         f.write("train_loss : " + str(train_loss) + "\n")
@@ -76,6 +75,7 @@ def run(Q):
         f.write("test_acc : " + str(test_acc) + "\n")
         f.write("time : " + str(time.time() - starttime) + "\n")
     
+    model_2step = load_model(model_name)
     conv_base = model.layers[0]
 
     for layer in conv_base.layers:
@@ -85,18 +85,20 @@ def run(Q):
         optimizer = optimizers.RMSprop(learning_rate=1e-5),
         loss = "binary_crossentropy", metrics = ["accuracy"]
     )
+    train_2step, val_2step, test_2step = generator_2step(input_shape[:2], batch_size)
+
     history_after = model.fit_generator(
-        train, epochs = epochs2,
-        validation_data = val
+        train_2step, epochs = epochs2,
+        validation_data = val_2step
     )
 
     model.save("new_models/chest_x_ray_Q" + str(Q) + "_after.h5")
 
     train_loss = history_after.history["loss"][-1]
     train_acc = history_after.history["accuracy"][-1]
-    test_loss, test_acc = model.evaluate_generator(test)
-    plot_result(history_after, Q, "accuracy")
-    plot_result(history_after, Q, "loss")
+    test_loss, test_acc = model.evaluate_generator(test_2step)
+    plot_result(history_after, Q, "accuracy", "after")
+    plot_result(history_after, Q, "loss", "after")
     text_name = TXT_DIR + "Q" + str(Q) + "after.txt"
     with open(text_name, 'w') as f:
         f.write("train_loss : " + str(train_loss) + "\n")
@@ -117,14 +119,12 @@ def get_model(Q, input_shape):
     model.add(conv_base)
     if Q == 1:
         model.add(layers.GlobalAveragePooling2D())
-        model.add(layers.Flatten())
         model.add(layers.Dense(512, activation='relu'))
         model.add(layers.BatchNormalization())
         model.add(layers.Activation('relu'))
         model.add(layers.Dense(128, activation='relu'))
     else:
         model.add(layers.GlobalAveragePooling2D())
-        model.add(layers.Flatten())
         model.add(layers.Dropout(0.25))
         model.add(layers.Dense(512, activation='relu'))
         model.add(layers.BatchNormalization())
@@ -134,7 +134,7 @@ def get_model(Q, input_shape):
         model.add(layers.Dropout(0.25))
     model.add(layers.Dense(1, activation='sigmoid'))
     model.compile(
-        optimizer=optimizers.RMSprop(learning_rate=1e-4),
+        optimizer=optimizers.RMSprop(learning_rate=1e-5),
         loss='binary_crossentropy', metrics=['accuracy']
     )
     return model
@@ -157,7 +157,16 @@ def generator(input_shape, batch_size):
     test_generator = data_generator(TEST_DIR, input_shape, batch_size, test_data)
     return train_generator, val_generator, test_generator
 
-def plot_result(h, Q, title):
+def generator_2step(input_shape, batch_size):
+    train_data = ImageDataGenerator(rescale=1./255)
+    val_data = ImageDataGenerator(rescale=1./255)
+    test_data = ImageDataGenerator(rescale=1./255)
+    train_generator = data_generator(TRAIN_DIR_2STEP, input_shape, batch_size, train_data)
+    val_generator = data_generator(VAL_DIR_2STEP, input_shape, batch_size, val_data)
+    test_generator = data_generator(TEST_DIR_2STEP, input_shape, batch_size, test_data)
+    return train_generator, val_generator, test_generator
+
+def plot_result(h, Q, title, T):
     if title == "accuracy":
         plt.plot(h.history['accuracy'])
         plt.plot(h.history['val_accuracy'])
@@ -168,7 +177,7 @@ def plot_result(h, Q, title):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend(['Training', 'Validation'], loc=0)
-    plt.savefig(FIG_DIR + 'Q' + str(Q) + title + '.png')
+    plt.savefig(FIG_DIR + 'Q' + str(Q) + title + T + '.png')
     plt.clf()
 
 import datetime

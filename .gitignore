@@ -149,3 +149,12 @@ cython_debug/
 data_files/
 *.h5
 result/
+*.png
+*.jpg
+*.jpeg
+/backup-model
+/figures
+/__pycache__
+/new_models
+/txtfiles
+/result
