@@ -76,27 +76,27 @@ def run(Q):
         f.write("time : " + str(time.time() - starttime) + "\n")
     
     model_2step = load_model(model_name)
-    conv_base = model.layers[0]
+    conv_base = model_2step.layers[0]
 
     for layer in conv_base.layers:
         if layer.name.startswith('block5'):
             layer.trainable = True
-    model.compile(
+    model_2step.compile(
         optimizer = optimizers.RMSprop(learning_rate=1e-5),
         loss = "binary_crossentropy", metrics = ["accuracy"]
     )
     train_2step, val_2step, test_2step = generator_2step(input_shape[:2], batch_size)
 
-    history_after = model.fit_generator(
+    history_after = model_2step.fit_generator(
         train_2step, epochs = epochs2,
         validation_data = val_2step
     )
 
-    model.save("new_models/chest_x_ray_Q" + str(Q) + "_after.h5")
+    model_2step.save("new_models/chest_x_ray_Q" + str(Q) + "_after.h5")
 
     train_loss = history_after.history["loss"][-1]
     train_acc = history_after.history["accuracy"][-1]
-    test_loss, test_acc = model.evaluate_generator(test_2step)
+    test_loss, test_acc = model_2step.evaluate_generator(test_2step)
     plot_result(history_after, Q, "accuracy", "after")
     plot_result(history_after, Q, "loss", "after")
     text_name = TXT_DIR + "Q" + str(Q) + "after.txt"
