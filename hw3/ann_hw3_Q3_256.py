@@ -25,8 +25,7 @@ TEST_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/test"
 
 EPOCHS1 = 100
 EPOCHS2 = 100
-STEPS_PER_EPOCH = 255
-VAL_STEPS = 1
+STEPS_PER_EPOCH = 100
 
 starttime = time.time()
 train_data = ImageDataGenerator(rescale=1./255)
@@ -80,7 +79,7 @@ model.compile(
 
 history = model.fit(
     train_generator, epochs = EPOCHS1, steps_per_epoch = STEPS_PER_EPOCH,
-    validation_data = val_generator, validation_steps = VAL_STEPS
+    validation_data = val_generator
 )
 
 ## save
@@ -141,7 +140,7 @@ starttime = time.time()
 
 history = model.fit_generator(
     train_generator, epochs = EPOCHS2, steps_per_epoch = STEPS_PER_EPOCH,
-    validation_data = val_generator, validation_steps = VAL_STEPS
+    validation_data = val_generator
 )
 
 ## visualization result
