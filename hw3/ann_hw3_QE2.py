@@ -37,11 +37,11 @@ batch_list = [
 ]
 
 input_shape_list = [
-    (128, 128, 3), (128, 128, 3),
-    (128, 128, 3), (128, 128, 3),
-    (256, 256, 3), (256, 256, 3),
-    (512, 512, 3), (512, 512, 3),
-    (None, None, 3), (None, None, 3)
+    (128, 128), (128, 128),
+    (128, 128), (128, 128),
+    (256, 256), (256, 256),
+    (512, 512), (512, 512),
+    (None, None), (None, None)
 ]
 
 
@@ -67,6 +67,16 @@ for model_str, input_shape, batch_size in zip(model_list, input_shape_list, batc
     y_pred = model.predict_generator(test_generator)
     auc = metrics.roc_auc_score(y_test, y_pred)
     print(auc)
+#Precision, Recall (sensitivity), Specificity, F1 score, AUC
 
     matrix = metrics.confusion_matrix(y_test, y_pred>0.5)
     print(matrix)
+    tp = matrix[0][0]
+    fn = matrix[0][1]
+    fp = matrix[1][0]
+    tn = matrix[1][1]
+    prec = tp / (tp + fp)
+    spec = tn / (tn + fp)
+    recall = tp / (tp + fn)
+    f1 = 2 * (prec * recall) / (prec + recall)
+
