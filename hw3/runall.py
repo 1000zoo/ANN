@@ -4,7 +4,6 @@
 ## import
 from tensorflow.keras import models, layers, optimizers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.models import load_model
 from tensorflow.keras.applications import VGG16
 import matplotlib.pyplot as plt
 import time
@@ -32,19 +31,19 @@ def run(Q):
     ## Q3 - 256
     elif Q == 3:
         input_shape = (256, 256, 3)
-        batch_size = 10
+        batch_size = 15
         epochs1 = 100
         epochs2 = 100
     ## Q3 - 512
     elif Q == 4:
         input_shape = (512, 512, 3)
-        batch_size = 8
+        batch_size = 10
         epochs1 = 100
         epochs2 = 100
-    ## QE1 + QE1 Flatten
+    ## QE1
     elif Q == 5:
         input_shape = (None, None, 3)
-        batch_size = 15
+        batch_size = 20
         epochs1 = 100
         epochs2 = 100
     else:
@@ -56,7 +55,6 @@ def run(Q):
     model = get_model(Q, input_shape)
     history_before = model.fit_generator(
         train, epochs = epochs1,
-        steps_per_epoch = 100,
         validation_data = val
     )
     model_name = "new_models/chest_x_ray_Q" + str(Q) + ".h5"
@@ -75,7 +73,7 @@ def run(Q):
         f.write("test_acc : " + str(test_acc) + "\n")
         f.write("time : " + str(time.time() - starttime) + "\n")
     
-    model_2step = load_model(model_name)
+    model_2step = models.load_model(model_name)
     conv_base = model_2step.layers[0]
 
     for layer in conv_base.layers:
@@ -89,7 +87,6 @@ def run(Q):
 
     history_after = model_2step.fit_generator(
         train_2step, epochs = epochs2,
-        steps_per_epoch = 100,
         validation_data = val_2step
     )
 
@@ -183,9 +180,11 @@ import datetime
 
 if __name__ == "__main__":
     print(datetime.datetime.now())
-    for q in range(2,6):
-        if q == 4:
-            continue
-        print(q)
-        run(q)
+    # for q in range(4,6):
+    #     if q == 4:
+    #         continue
+    #     print(q)
+    #     run(q)
+    run(3)
+    run(5)
     print(datetime.datetime.now())

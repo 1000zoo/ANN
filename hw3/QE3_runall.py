@@ -32,7 +32,7 @@ def run(Q):
     ## Q3 - 256
     elif Q == 3:
         input_shape = (256, 256, 3)
-        batch_size = 10
+        batch_size = 15
         epochs1 = 100
         epochs2 = 100
     ## Q3 - 512
@@ -44,7 +44,7 @@ def run(Q):
     ## QE1
     elif Q == 5:
         input_shape = (None, None, 3)
-        batch_size = 10
+        batch_size = 20
         epochs1 = 100
         epochs2 = 100
     else:
