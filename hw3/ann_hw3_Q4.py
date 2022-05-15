@@ -1,5 +1,4 @@
-PATH = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/test/PNEUMONIA/person59_virus_116.jpeg"
-
+PATH = "/Users/1000zoo/Documents/prog/ANN/data_files/chest_xray/test/PNEUMONIA/person1625_virus_2817.jpeg"
 from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
 from tensorflow.keras import backend as K
 from tensorflow.keras.preprocessing import image

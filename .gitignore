@@ -158,3 +158,8 @@ result/
 /new_models
 /txtfiles
 /result
+/figures_QE3
+/new_models_QE3
+/txtfiles_QE3
+*.txt
+
