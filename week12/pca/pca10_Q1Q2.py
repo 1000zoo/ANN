@@ -3,7 +3,7 @@ from tensorflow.keras import models, layers, optimizers
 from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 from tensorflow.keras.applications import InceptionV3
-
+    
 # set image generators
 train_dir='/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/train'
 test_dir='/Users/1000zoo/Documents/prog/ANN/data_files/dogs_and_cats/test'

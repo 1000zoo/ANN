@@ -1,5 +1,5 @@
 from tensorflow.keras.models import load_model
-
+    
 model = load_model("cats_and_dogs_small_pretrained.h5")
 model.summary()
 conv_base = model.layers[0]

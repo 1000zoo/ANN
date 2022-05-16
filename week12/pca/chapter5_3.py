@@ -3,7 +3,7 @@ from tensorflow.keras import models, layers, optimizers
 from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 from tensorflow.keras.applications import VGG16
-
+    
 # set image generators
 train_dir='./datasets/cats_and_dogs_small/train/'
 test_dir='./datasets/cats_and_dogs_small/test/'
