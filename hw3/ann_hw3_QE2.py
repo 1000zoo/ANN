@@ -6,8 +6,8 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 import time
 
-TEST_DIR = "C:/Users/cjswl/python__/ann-data/chest_xray/chest_xray/test"
-MODEL_DIR = "new_models/"
+TEST_DIR = "/Users/1000zoo/Documents/prog/ANN/data_files/chest_xray/test"
+MODEL_DIR = "huhu/models/"
 
 q1_model_before = MODEL_DIR + "chest_x_ray_Q1.h5"
 q1_model_after = MODEL_DIR + "chest_x_ray_Q1_after.h5"
@@ -71,12 +71,21 @@ for model_str, input_shape, batch_size in zip(model_list, input_shape_list, batc
 
     matrix = metrics.confusion_matrix(y_test, y_pred>0.5)
     print(matrix)
-    tp = matrix[0][0]
-    fn = matrix[0][1]
-    fp = matrix[1][0]
-    tn = matrix[1][1]
+    tn = matrix[0][0]
+    fp = matrix[0][1]
+    fn = matrix[1][0]
+    tp = matrix[1][1]
     prec = tp / (tp + fp)
     spec = tn / (tn + fp)
     recall = tp / (tp + fn)
     f1 = 2 * (prec * recall) / (prec + recall)
+    model_name = model_str.split("/")[-1].split(".")[0]
+    print(model_name)
+
+    with open("precision_txt/" + model_name + ".txt", "w") as f:
+        f.write("precision: " + str(prec) + "\n") 
+        f.write("specificity:" + str(spec) + "\n") 
+        f.write("f1 score:" + str(f1) + "\n") 
+        f.write("recall:" + str(recall) + "\n") 
+        f.write("auc:" + str(auc) + "\n")
 
