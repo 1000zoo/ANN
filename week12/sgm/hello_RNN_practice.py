@@ -23,9 +23,11 @@ y_data = [sample_idx[1:]]
 inputs = to_categorical(x_data, num_classes)
 outputs = to_categorical(y_data, num_classes)
 
+
 def build_model():
     model = Sequential()
-    # fill here
+    model.add(SimpleRNN(32, activation='tanh', input_shape=(sequence_length, dic_size,), return_sequences=True))
+    model.add(Dense(num_classes, activation='softmax'))
     model.summary()
     model.compile(optimizer=Adam(learning_rate=lr), loss='categorical_crossentropy', metrics=['accuracy'])
     return model

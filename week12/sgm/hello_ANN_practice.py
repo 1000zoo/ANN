@@ -27,7 +27,8 @@ outputs = np.squeeze(outputs)
 
 def build_model():
     model = Sequential()
-    # fill here
+    model.add(Dense(10, activation='tanh', input_shape=(dic_size,)))
+    model.add(Dense(num_classes, activation='softmax'))
     model.summary()
     model.compile(optimizer=Adam(learning_rate=lr), loss='categorical_crossentropy', metrics=['accuracy'])
     return model
