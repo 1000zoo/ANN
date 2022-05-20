@@ -34,6 +34,7 @@ validation_generator = validation_datagen.flow_from_directory(
 
 # model definition
 input_shape = [150, 150, 3] # as a shape of image
+
 def build_model():
     model=models.Sequential()
     conv_base = InceptionV3(weights='imagenet',

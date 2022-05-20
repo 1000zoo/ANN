@@ -4,7 +4,7 @@ model = load_model("cats_and_dogs_small_pretrained.h5")
 model.summary()
 conv_base = model.layers[0]
 conv_base.summary()
-# conv_base.trainable = False
+conv_base.trainable = False
 print("="*30)
 print("="*30)
 print("="*30)

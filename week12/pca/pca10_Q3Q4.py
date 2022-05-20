@@ -36,9 +36,10 @@ validation_generator = validation_datagen.flow_from_directory(
 input_shape = [150, 150, 3] # as a shape of image
 def build_model():
     model = models.load_model("cats_and_dogs_small_pretrained.h5")
-    for layer in model.layers[:249]:
+    conv_base = model.layers[0]
+    for layer in conv_base.layers[:249]:
         layer.trainable = False
-    for layer in model.layers[249:]:
+    for layer in conv_base.layers[249:]:
         layer.trainable = True
     # compile
     model.compile(optimizer=optimizers.RMSprop(lr=1e-5),
@@ -55,7 +56,7 @@ history = model.fit_generator(train_generator,
                     validation_data=validation_generator, validation_steps=50)
 
 # saving the model
-model.save('cats_and_dogs_small_pretrained.h5')
+model.save('cats_and_dogs_small_pretrained_after.h5')
 
 # evaluation
 train_loss, train_acc = model.evaluate_generator(train_generator)
