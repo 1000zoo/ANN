@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import SimpleRNN, GRU, LSTM, Activation
+from tensorflow.keras.layers import SimpleRNN, GRU, LSTM, Activation, Dense
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
 
