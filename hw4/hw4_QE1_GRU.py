@@ -17,7 +17,7 @@ from tensorflow.keras import layers, models, optimizers
 from sklearn.model_selection import TimeSeriesSplit
 
 PATH="/content/practice_data.txt"
-EPOCHS = 600
+EPOCHS = 100
 
 def generator(data, time_steps=10, batch_size=20, istest=False):
     batch = len(data) - time_steps
@@ -124,7 +124,7 @@ def main():
 
     for test, _ in generator(data, istest=True):
       prediction = model.predict(test, batch_size=batch_size)
-      overall = np.append(overall, max(0,np.sum(prediction) * max_value)) ## ?????
+      overall = np.append(overall, np.sum(prediction) / batch_size * max_value)
 
     draw(real, overall)
     printandplot(loss_history)
@@ -136,7 +136,7 @@ def draw(target, predict, title="overall.jpg"):
     plt.xlabel("days")
     plt.ylabel("confirmed case")
     plt.legend(["Target", "Predict"], loc=0)
-    plt.title("LSTM")
+    plt.title("GRU")
     plt.savefig(title)
     plt.clf()
 

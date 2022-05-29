@@ -122,9 +122,9 @@ def main():
     for o in predict_list:
         overall = np.append(overall, np.sum(o))
 
-    for test, _ in generator(data, istest=True):
+    for test, _ in generator(odata, istest=True):
       prediction = model.predict(test, batch_size=batch_size)
-      overall = np.append(overall, max(0,np.sum(prediction) * max_value)) ## ?????
+      overall = np.append(overall, np.sum(prediction) / batch_size * max_value) ## ?????
 
     draw(real, overall)
     printandplot(loss_history)
@@ -136,7 +136,7 @@ def draw(target, predict, title="overall.jpg"):
     plt.xlabel("days")
     plt.ylabel("confirmed case")
     plt.legend(["Target", "Predict"], loc=0)
-    plt.title("LSTM")
+    plt.title("SimpleRNN")
     plt.savefig(title)
     plt.clf()
 
