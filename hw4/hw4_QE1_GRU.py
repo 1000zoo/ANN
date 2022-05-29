@@ -124,7 +124,7 @@ def main():
 
     for test, _ in generator(data, istest=True):
       prediction = model.predict(test, batch_size=batch_size)
-      overall = np.append(overall, max(0,np.sum(prediction[-1]) * max_value * 20 - 40000))
+      overall = np.append(overall, max(0,np.sum(prediction) * max_value)) ## ?????
 
     draw(real, overall)
     printandplot(loss_history)
