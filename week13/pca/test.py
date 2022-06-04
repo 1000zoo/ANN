@@ -1,6 +1,8 @@
 import os
 import numpy as np
 
+PATH = "/Users/1000zoo/Documents/prog/data_files/jena_climate/jena_climate_2009_2016.csv"
+
 class Data():
     def __init__(self, fname, ratio):
         f = open(fname)
@@ -76,6 +78,8 @@ class Data():
                 indices = range(rows[j] - lookback, rows[j], step)
                 samples[j] = self.data[indices]
                 targets[j] = self.data[rows[j] + delay - 1][1]
+            print(samples.shape, targets.shape)
+            exit()
             yield samples, targets
 
 
@@ -110,7 +114,7 @@ def main_ANN(ratio = [0.5, 0.25, 0.25], lookback = 2880, step = 6, delay = 144, 
     return history
 
 def main_RNN(ratio = [0.5, 0.25, 0.25], lookback = 2880, step = 6, delay = 144, batch_size = 128, epochs = 20):
-    fname = "/Users/1000zoo/Documents/prog/ANN/data_files/jena_climate/jena_climate_2009_2016.csv"
+    fname = PATH
     dataset = Data(fname, ratio)
     dataset.get_generators(lookback=lookback, delay=delay, batch_size=batch_size, step=step)
 

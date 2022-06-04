@@ -1,11 +1,15 @@
-PATH = "/Users/1000zoo/Documents/prog/ANN/data_files/chest_xray/test/PNEUMONIA/person1625_virus_2817.jpeg"
-from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
+from tensorflow.keras.applications.vgg16 import VGG16,\
+     preprocess_input, decode_predictions
 from tensorflow.keras import backend as K
+from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 tf.compat.v1.disable_eager_execution()
+
+PATH = "/Users/1000zoo/Documents/prog/ANN/data_files/\
+chest_xray/test/PNEUMONIA/person1641_virus_2840.jpeg"
 
 image_path = PATH
 img = image.load_img(image_path, target_size = (224,224))
@@ -60,7 +64,7 @@ def draw_activation(activation, figure_name):
     plt.imshow(display_grid, aspect='auto', cmap='viridis')
     plt.show()
 
-model = VGG16(weights='imagenet')
+model = VGG16(weights="imagenet")
 heatmap, conv_output, pooled_grads = gradCAM(model, img_tensor)
 
 import cv2
@@ -70,7 +74,7 @@ heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
 heatmap = np.uint8(255*heatmap)
 heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
 superimposed_img = heatmap*0.4 + img
-cv2.imwrite('result/sgm_gradCAM_ex1.jpg', superimposed_img)
+cv2.imwrite('result/hw3_Q4_virus.jpg', superimposed_img)
 
 draw_no = range(256, 256 + 32, 1)
 conv_activation = np.expand_dims(conv_output[:,:,draw_no], axis=0)
