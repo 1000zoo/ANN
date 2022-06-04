@@ -113,25 +113,4 @@ def main(epochs=10, batch_size=512, fig=True):
         show_images(data, unet)
 
 if __name__ == "__main__":
-    # import argparse
-    # from distutils import util
-
-    # parser = argparse.ArgumentParser(description="Unet for cifar-10")
-    # parser.add_argument(
-    #     "--epochs", type = int, default = 100,
-    #     help = "training epohcs (default: 100)"
-    # )
-    # parser.add_argument(
-    #     "--batch_size", type = int, default = 128,
-    #     help = "batch_size (default: 128)"
-    # )
-    # parser.add_argument(
-    #     "--fig", type = lambda x: bool(util.strtobool(x)),
-    #     default = True, help = "flag to show figures (default: True)"
-    #     )
-
-    # args = parser.parse_args()
-    # print("Aargs:", args)
     main()
-
-
